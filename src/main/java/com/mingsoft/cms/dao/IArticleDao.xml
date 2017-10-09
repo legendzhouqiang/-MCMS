@@ -235,7 +235,7 @@
 		,cl.COLUMN_PATH,cl.COLUMN_CM_ID,cl.COLUMN_TYPE,cl.COLUMN_CATEGORY_ID 
 		FROM cms_article a LEFT JOIN basic b  ON a.ARTICLE_BASICID = b.BASIC_ID 
 		LEFT JOIN basic_column cl ON b.BASIC_CATEGORYID = cl.COLUMN_CATEGORY_ID 
-		LEFT JOIN category c ON c.CATEGORY_ID = cl.COLUMN_CATEGORY_ID
+		JOIN category c ON c.CATEGORY_ID = cl.COLUMN_CATEGORY_ID
 		where a.ARTICLE_WEBID = #{webId}
 		<if test="article != null ">
 			<if test="article.basicTitle != null">
