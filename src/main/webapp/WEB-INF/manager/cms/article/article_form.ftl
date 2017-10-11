@@ -145,18 +145,17 @@ $(function(){
 					   			<#else>
 					   				<@ms.notify msg="更新文章成功，并已生成" type="success"/>
 					   			</#if>
-				   				if (obj.resultData!="") {
-				   					location.href=managerPath+"/cms/article/"+obj.resultData+"/main.do";
-				   				} 
 				   				$("#saveUpdate").removeAttr("disabled");
 				   			}else{
-				   				//生产失败则将按钮信息返回默认
+				   				//生成失败则将按钮信息返回默认
 				   				<@ms.notify msg="生成文件失败" type="fail"/>
 				   				$("#saveUpdate").removeAttr("disabled");
 				   			}
-						}}); 
-				   		location.href=managerPath+"/cms/article/${categoryId?default(0)}/main.do";
-				   		<@ms.notify msg="文章保存成功" type="success"/>
+				   			var columnType = ${columnType};
+				   			if(columnType == 1){
+				   				location.href=managerPath+"/cms/article/${categoryId?default(0)}/main.do";
+				   			}
+						}});
 				   		$("#saveUpdate").removeAttr("disabled");
 					}else{
 						<@ms.notify msg="操作失败" type="fail"/>

@@ -241,16 +241,16 @@ public class ArticleAction extends BaseAction {
 		boolean isEditCategory = false; // 新增，不是单篇
 		// 获取栏目id
 		ColumnEntity column = (ColumnEntity) columnBiz.getEntity(categoryId);
+		int columnType = column.getColumnType();
 		// 判断栏目是否是单篇
 		if (column != null && column.getColumnType() == ColumnTypeEnum.COLUMN_TYPE_COVER.toInt()) {
 			isEditCategory = true; // 是单页
 		}
 		;
 		mode.addAttribute("categoryTitle", categoryTitle);
-
 		mode.addAttribute("isEditCategory", isEditCategory); // 新增状态
 		mode.addAttribute("categoryId", categoryId);
-
+		mode.addAttribute("columnType", columnType);
 		// 添加一个空的article实体
 		ArticleEntity article = new ArticleEntity();
 		mode.addAttribute("article", article);
@@ -510,19 +510,20 @@ public class ArticleAction extends BaseAction {
 		String categoryTitle = request.getParameter("categoryTitle");
 		// 板块id
 		int categoryId = this.getInt(request, "categoryId", 0);
-
 		ArticleEntity articleEntity = null;
 		int appId = this.getAppId(request);
 		model.addAttribute("appId", appId);
 		if (categoryId > 0) { // 分类获取文章
 			articleEntity = articleBiz.getByCategoryId(categoryId);
+			ColumnEntity column = articleEntity.getColumn();
+			int columnType = column.getColumnType();
 			model.addAttribute("article", articleEntity);
 			// 文章属性
 			model.addAttribute("articleType", articleType());
-
 			model.addAttribute("categoryTitle", categoryTitle);
 			model.addAttribute("categoryId", categoryId);// 编辑封面
 			model.addAttribute("isEditCategory", true);// 编辑封面
+			model.addAttribute("columnType", columnType);
 			return view("/cms/article/article_form");
 		} else if (id > 0) { // 文章id获取
 			// 允许编辑文章时更改分类
@@ -537,6 +538,7 @@ public class ArticleAction extends BaseAction {
 			model.addAttribute("article", articleEntity);
 			// 判断是否是封面类型的栏目，如果是封面类型的栏目有些信息需要屏蔽，例如分类
 			ColumnEntity column = articleEntity.getColumn();
+			int columnType = column.getColumnType();
 			if (column.getColumnType() == ColumnEntity.COLUMN_TYPE_COVER) {
 				model.addAttribute("categoryTitle", categoryTitle);
 				model.addAttribute("categoryId", column.getCategoryId());// 编辑封面
@@ -545,6 +547,7 @@ public class ArticleAction extends BaseAction {
 				model.addAttribute("categoryTitle", articleEntity.getColumn().getCategoryTitle());
 				model.addAttribute("isEditCategory", false);// 编辑文章
 			}
+			model.addAttribute("columnType", columnType);
 			model.addAttribute("categoryId", column.getCategoryId());// 编辑封面
 			return view("/cms/article/article_form");
 		} else {// 非法

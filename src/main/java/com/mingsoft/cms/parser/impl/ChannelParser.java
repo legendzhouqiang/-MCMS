@@ -254,6 +254,9 @@ public class ChannelParser extends IParser {
 		Pattern pattern = Pattern.compile(regex);
 		Matcher matcher = pattern.matcher(htmlCotent);
 		if (matcher.find()) {
+			if(newContent == null){
+				newContent = "";
+			}
 			htmlCotents = matcher.replaceAll(newContent.toString().replace("\\", "/"));
 		}
 		return htmlCotents;
