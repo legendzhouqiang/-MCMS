@@ -328,7 +328,7 @@ public class ArticleAction extends BaseAction {
 		if (article.getColumn().getColumnType() == ColumnTypeEnum.COLUMN_TYPE_COVER.toInt()) {
 			this.outJson(response, ModelCode.CMS_ARTICLE, true, "" + article.getColumn().getCategoryId(), "");
 		} else {
-			this.outJson(response, ModelCode.CMS_ARTICLE, true, "",article.getColumn().getCategoryId()+"");
+			this.outJson(response, ModelCode.CMS_ARTICLE, true, article.getColumn().getCategoryId()+"", "");
 		}
 	}
 
